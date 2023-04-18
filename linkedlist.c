@@ -5,9 +5,11 @@
 * https://mylo.utas.edu.au/d2l/le/content/566489/viewContent/4956911/View
 * This version is modified by Anh Quan Doan for the first Assignment of KIT205
 */
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include "linkedlist.h"
+#include <stdbool.h>
 
 
 List new_list() {
@@ -74,17 +76,16 @@ void insert_at_front(List* self, String data) {
 	self->head = new_node;
 }
 //find a unit name from the user input through traversal
-void find_list(List* self, String data) {
+ListNodePtr find_list(List* self, String data) {
 	ListNodePtr current_node = self->head;
 	ListNodePtr prev = NULL;
 	ListNodePtr result = NULL; //return variable
 
-	//compare to see whether the current node is the target node or not
-	int compare = strcmp(current_node->unit_name, data);
+	
 
 	while (current_node != NULL)
 	{
-		if (compare == 0)
+		if (strcmp(current_node->unit_name, data) == 0)
 		{
 			result = current_node;
 		}
