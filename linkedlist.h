@@ -23,29 +23,18 @@ typedef struct list {
 	ListNodePtr head;
 } List;
 
-/*
-Create a new instance of the list type
-*/
+//function to intialise a list
 List create_list();
 
-/*
-Insert a new element in an ordered list
-*/
+//function to insert an element in order
 void insert_in_order(List* self, String data);
 
-/**
-*Traverse the link-list to find the 'target' course.
-*/
-ListNodePtr search_list(List* self, String data);
-
-/*
-Delete an item from a list
-*/
+//function to delete an item 
 void delete_list(List* self, String data);
 
 
-/*
- Delete all items in a list
- */
+//function to free memory when not used
 void destroy_list(List* self);
 
+//function to search a target node in the list
+ListNodePtr search_list(List* self, String data);

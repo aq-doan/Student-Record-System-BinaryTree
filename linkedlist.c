@@ -21,6 +21,21 @@ List create_list() {
 	return temp;
 }
 
+//function to free memory
+void destroy_list(List* self) {
+	ListNodePtr clist = self->head;
+	while (clist != NULL) {
+		ListNodePtr to_free = clist;
+
+		clist = clist->next; //continue to tranverse
+
+		destroy_bst(&to_free->student_list);
+		free(to_free->unit_name);
+		free(to_free);
+	}
+	self->head = NULL;
+}
+
 //function to traverse the linked list to find the data
 ListNodePtr search_list(List* self, String data) {
 	ListNodePtr clist = self->head;
@@ -38,37 +53,6 @@ ListNodePtr search_list(List* self, String data) {
 	return NULL;
 }
 
-//function to insert in order
-void insert_in_order(List* self, String data) {
-	ListNodePtr clist = self->head;
-	ListNodePtr plist = NULL;
-	ListNodePtr new_list_node = malloc(sizeof * new_list_node);
-
-	int str_length = strlen(data) + 1; //finding the data's length
-	//allocate memory based on data's length
-	new_list_node->unit_name = malloc((str_length) * sizeof(String));
-
-	//copy string
-	strcpy(new_list_node->unit_name, data);
-
-	new_list_node->student_list.root = NULL;
-
-	new_list_node->next = NULL;
-
-	while (clist != NULL && strcmp(clist->unit_name, data) < 0) {
-		plist = clist;
-		clist = clist->next;
-	}
-
-	if (clist == self->head) { // at front
-		new_list_node->next = clist;
-		self->head = new_list_node;
-	}
-	else {// middle
-		new_list_node->next = clist;
-		plist->next = new_list_node;
-	}
-}
 
 //function to delete an item from the list
 void delete_list(List* self, String data) {
@@ -104,17 +88,34 @@ void delete_list(List* self, String data) {
 	}
 }
 
-//function to free memory
-void destroy_list(List* self) {
+//function to insert in order
+void insert_in_order(List* self, String data) {
 	ListNodePtr clist = self->head;
-	while (clist != NULL) {
-		ListNodePtr to_free = clist;
+	ListNodePtr plist = NULL;
+	ListNodePtr new_list_node = malloc(sizeof * new_list_node);
 
-		clist = clist->next; //continue to tranverse
+	int str_length = strlen(data) + 1; //finding the data's length
+	//allocate memory based on data's length
+	new_list_node->unit_name = malloc((str_length) * sizeof(String));
 
-		destroy_bst(&to_free->student_list);
-		free(to_free->unit_name);
-		free(to_free);
+	//copy string
+	strcpy(new_list_node->unit_name, data);
+
+	new_list_node->student_list.root = NULL;
+
+	new_list_node->next = NULL;
+
+	while (clist != NULL && strcmp(clist->unit_name, data) < 0) {
+		plist = clist;
+		clist = clist->next;
 	}
-	self->head = NULL;
+
+	if (clist == self->head) { // at front
+		new_list_node->next = clist;
+		self->head = new_list_node;
+	}
+	else {// middle
+		new_list_node->next = clist;
+		plist->next = new_list_node;
+	}
 }

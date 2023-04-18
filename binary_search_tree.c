@@ -16,25 +16,6 @@ BST new_bst() {
 	return temp;
 }
 
-// recursive function to find a value and return the containing node
-BSTNodePtr find_bst_node_bst(BSTNodePtr self, int n) {
-
-	if (self == NULL || n == self->id_number) {
-		return self;
-	}
-
-	if (n < self->id_number) {
-		return find_bst_node_bst(self->left, n);
-	}
-	return find_bst_node_bst(self->right, n);
-}
-
-// find a value in the tree and return the node
-BSTNodePtr find_bst_node(BST* self, int n) {
-	return find_bst_node(self->root, n);
-}
-
-
 // recursive function to insert a value
 BSTNodePtr insert_bst_node(BSTNodePtr self, int n) {
 
@@ -71,6 +52,42 @@ BSTNodePtr min_node(BSTNodePtr self) {
 	return c;
 }
 
+// recursive function to destroy all node
+void destroy_bst_node(BSTNodePtr self) {
+
+	if (self != NULL) {
+		destroy_bst_node(self->left);
+		self->left = NULL;
+		destroy_bst_node(self->right);
+		self->right = NULL;
+
+		free(self);
+	}
+}
+
+// destroy the tree
+void destroy_bst(BST* self) {
+	destroy_bst_node(self->root);
+	self->root = NULL;
+}
+
+// recursive function to find a value and return the containing node
+BSTNodePtr find_bst_node_bst(BSTNodePtr self, int n) {
+
+	if (self == NULL || n == self->id_number) {
+		return self;
+	}
+
+	if (n < self->id_number) {
+		return find_bst_node_bst(self->left, n);
+	}
+	return find_bst_node_bst(self->right, n);
+}
+
+// find a value in the tree and return the node
+BSTNodePtr find_bst_node(BST* self, int n) {
+	return find_bst_node(self->root, n);
+}
 
 // recursive function to delete a value
 BSTNodePtr delete_bst_node(BSTNodePtr self, int n) {
@@ -109,29 +126,22 @@ void delete_bst(BST* self, int n) {
 	self->root = delete_bst_node(self->root, n);
 }
 
-
-// recursive function to destroy all node
-void destroy_bst_node(BSTNodePtr self) {
-
-	if (self != NULL) {
-		destroy_bst_node(self->left);
-		self->left = NULL;
-		destroy_bst_node(self->right);
-		self->right = NULL;
-
-		free(self);
+//count the number of node of a bst
+int count_bst(BSTNodePtr self) {
+	int count;
+	if (self == NULL) {
+		return 0;
 	}
+	count = 1 + count_bst(self->left) +
+		count_bst(self->right);
+
+	return count;
 }
 
-// destroy the tree
-void destroy_bst(BST* self) {
-	destroy_bst_node(self->root);
-	self->root = NULL;
+int count_node(BST* self) {
+	return count_bst(self->root);
 }
-
-/**
-* print a binary search tree using in-order format
-*/
+//print in order
 void print_in_order_bst_node(BSTNodePtr self) {
 	if (self == NULL) {
 		printf("_");
@@ -148,18 +158,4 @@ void print_in_order_bst(BST* self) {
 }
 
 
-//count the number of node of a bst
-int count_bst(BSTNodePtr self) {
-	int count;
-	if (self == NULL) {
-		return 0;
-	}
-	count = 1 + count_bst(self->left) +
-		count_bst(self->right);
 
-	return count;
-}
-
-int count_node(BST* self) {
-	return count_bst(self->root);
-}
