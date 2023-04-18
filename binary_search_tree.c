@@ -7,7 +7,7 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
-#include "binary_search_tree.h"
+#include "bst.h"
 
 // create a new empty binary search tree
 BST new_bst() {
@@ -17,36 +17,41 @@ BST new_bst() {
 }
 
 // recursive function to find a value and return the containing node
-BSTNodePtr find_bst_node(BSTNodePtr self, int n) {
-	if (self != NULL || (n == self->student_id)) { /* not present, or here */
-		return self;
+BSTNodePtr search_bst_node(BSTNodePtr self, int n) {
+	BSTNodePtr result = search_bst_node(self->right, n);
+	if (self == NULL || n == self->id_number) {
+		result = self;
 	}
-	else if (n < self->student_id) {
-		return find_bst_node(self->left, n);
+
+	if (n < self->id_number) {
+		result = search_bst_node(self->left, n);
 	}
-	else {
-		return find_bst_node(self->right, n);
-	}
+	return result;
+
 }
 
 // find a value in the tree and return the node
-BSTNodePtr find_bst(BST* self, int n) {
-	return find_bst_node(self->root, n);
+BSTNodePtr search_tree(BST* self, int n) {
+	return search_bst_node(self->root, n);
 }
+
 
 // recursive function to insert a value
 BSTNodePtr insert_bst_node(BSTNodePtr self, int n) {
+	
 	if (self == NULL) { /* found where to put it*/
 		self = malloc(sizeof * self);
-		self->student_id = n;
+		self->id_number = n;
 		self->left = self->right = NULL;
+
 	}
-	else if (n < self->student_id) {
+	else if (n < self->id_number) {
 		self->left = insert_bst_node(self->left, n);
 	}
-	else if (n > self->student_id) {
+	else if (n > self->id_number) {
 		self->right = insert_bst_node(self->right, n);
 	}
+
 	return self;
 }
 
@@ -55,24 +60,29 @@ void insert_bst(BST* self, int n) {
 	self->root = insert_bst_node(self->root, n);
 }
 
+
+
 // helper function for delete this function find the smallest node in a bst branch
 BSTNodePtr min_node(BSTNodePtr self) {
-	BSTNodePtr current = self;
-	while (current->left != NULL) {
-		current = current->left;
+	BSTNodePtr c = self;
+
+	while (c->left != NULL) {
+		c = c->left;
 	}
-	return current;
+	return c;
 }
+
 
 // recursive function to delete a value
 BSTNodePtr delete_bst_node(BSTNodePtr self, int n) {
 	if (self != NULL) {
-		if (n == self->student_id) { // found item 
+		if (self->id_number == n) {
 			if (self->left != NULL && self->right != NULL) {
 				// two child case 
 				BSTNodePtr successor = min_node(self->right);
-				self->student_id = successor->student_id;
-				self->right = delete_bst_node(self->right, self->student_id);
+				self->id_number = successor->id_number;
+				self->right = delete_bst_node(self->right, self->id_number);
+
 			}
 			else { // one or zero child case 
 				BSTNodePtr to_free = self;
@@ -85,7 +95,7 @@ BSTNodePtr delete_bst_node(BSTNodePtr self, int n) {
 				free(to_free);
 			}
 		}
-		else if (n < self->student_id) {
+		else if (n < self->id_number) {
 			self->left = delete_bst_node(self->left, n);
 		}
 		else {
@@ -100,86 +110,16 @@ void delete_bst(BST* self, int n) {
 	self->root = delete_bst_node(self->root, n);
 }
 
-// recursive function to print in order
-void print_in_order_bst_node(BSTNodePtr self) {
-	if (self == NULL) {
-		printf("_");
-	}
-	else {
-		printf("(");
-		print_in_order_bst_node(self->left);
-		printf(" %d ", self->student_id);
-		print_in_order_bst_node(self->right);
-		printf(")");
-	}
-}
-
-// print the tree in order
-void print_in_order_bst(BST* self) {
-	print_in_order_bst_node(self->root);
-}
-
-//recursive function to print preorder
-void print_pre_order_bst_node(BSTNodePtr self) {
-	if (self == NULL) {
-		printf("_");
-	}
-	else {
-		printf("(");
-		printf(" %d ", self->student_id);
-		print_pre_order_bst_node(self->left);
-		print_pre_order_bst_node(self->right);
-		printf(")");
-	}
-}
-
-//print the tree pre order
-void print_pre_order_bst(BST* self) {
-	print_pre_order_bst_node(self->root);
-}
-
-//recursive function to print the tree post order
-void print_post_order_bst_node(BSTNodePtr self) {
-	if (self == NULL) {
-		printf("_");
-	}
-	else {
-		printf("(");
-		print_pre_order_bst_node(self->left);
-		print_pre_order_bst_node(self->right);
-		printf(" %d ", self->student_id);
-		printf(")");
-	}
-}
-//print the tree post order
-void print_post_order_bst(BST* self) {
-	print_post_order_bst_node(self->root);
-}
-
-//recursive function to calculate the bst height and return it as an integer (private)
-int height_bst_node(BSTNodePtr self) {
-	int height = 0;
-	if (self == NULL) { //the terminating case
-		height = 0;
-	}
-	else {
-		height = 1 + (height_bst_node(self->left) > height_bst_node(self->right) ? height_bst_node(self->left) : height_bst_node(self->right));
-	}
-	return height;
-}
-
-//Public function of height 
-int height_bst(BST* self) {
-	return height_bst_node(self->root);
-}
 
 // recursive function to destroy all node
 void destroy_bst_node(BSTNodePtr self) {
+
 	if (self != NULL) {
 		destroy_bst_node(self->left);
 		self->left = NULL;
 		destroy_bst_node(self->right);
 		self->right = NULL;
+
 		free(self);
 	}
 }
@@ -190,37 +130,37 @@ void destroy_bst(BST* self) {
 	self->root = NULL;
 }
 
-void bst_test() {
-	BST tree = new_bst();
-	int quit = 0;
-	int data;
-	while (quit == 0) {
-		printf("Enter some data: ");
-		scanf_s("%d", &data);
-		if (data != 0) {
-			insert_bst(&tree, data);
-		}
-		else {
-			quit = 1;
-		}
+/**
+* print a binary search tree using in-order format
+*/
+void print_in_order_bst_node(BSTNodePtr self) {
+	if (self == NULL) {
+		printf("_");
 	}
-	//test in-order
-	printf("Test in-order:\n");
-	print_in_order_bst(&tree);
-	printf("\n");
+	else {
+		print_in_order_bst_node(self->left);
+		printf("%d", self->id_number);
+		print_in_order_bst_node(self->right);
+	}
+}
 
-	//test pre-order
-	printf("Test pre-order:\n");
-	print_pre_order_bst(&tree);
-	printf("\n");
+void print_in_order_bst(BST* self) {
+	print_in_order_bst_node(self->root);
+}
 
-	//test post-order
-	printf("Test post-order:\n");
-	print_post_order_bst(&tree);
-	printf("\n");
 
-	//test height()
-	printf("Test height:\n");
-	printf("%d", height_bst(&tree));
-	printf("\n");
+//count the number of node of a bst
+int count_bst(BSTNodePtr self) {
+	int count;
+	if (self == NULL) {
+		return 0;
+	}
+	count = 1 + count_bst(self->left) +
+		count_bst(self->right);
+
+	return count;
+}
+
+int count_node(BST* self) {
+	return count_bst(self->root);
 }
