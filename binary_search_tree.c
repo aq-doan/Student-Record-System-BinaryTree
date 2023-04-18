@@ -7,7 +7,7 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
-#include "bst.h"
+#include "binary_search_tree.h"
 
 // create a new empty binary search tree
 BST new_bst() {
@@ -17,28 +17,27 @@ BST new_bst() {
 }
 
 // recursive function to find a value and return the containing node
-BSTNodePtr search_bst_node(BSTNodePtr self, int n) {
-	BSTNodePtr result = search_bst_node(self->right, n);
+BSTNodePtr find_bst_node_bst(BSTNodePtr self, int n) {
+
 	if (self == NULL || n == self->id_number) {
-		result = self;
+		return self;
 	}
 
 	if (n < self->id_number) {
-		result = search_bst_node(self->left, n);
+		return find_bst_node_bst(self->left, n);
 	}
-	return result;
-
+	return find_bst_node_bst(self->right, n);
 }
 
 // find a value in the tree and return the node
-BSTNodePtr search_tree(BST* self, int n) {
-	return search_bst_node(self->root, n);
+BSTNodePtr find_bst_node(BST* self, int n) {
+	return find_bst_node(self->root, n);
 }
 
 
 // recursive function to insert a value
 BSTNodePtr insert_bst_node(BSTNodePtr self, int n) {
-	
+
 	if (self == NULL) { /* found where to put it*/
 		self = malloc(sizeof * self);
 		self->id_number = n;

@@ -44,7 +44,7 @@ BST new_bst();
  *
  * @return Pointer to the node with the given data item, or NULL if it is not found
  */
-BSTNodePtr search_tree(BST* self, int n);
+BSTNodePtr find_bst_node(BST* self, int n);
 
 /**
  * @brief Inserts a node with a given data item into a binary search tree

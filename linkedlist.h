@@ -13,33 +13,39 @@
 #include "binary_search_tree.h"
 typedef char* String;
 
-// Definition of a singly linked list node struct with an integer data field and a pointer to the next node.
 typedef struct listNode {
-	BST student_id;
 	String unit_name;
+	BST student_list;
 	struct listNode* next;
-}*ListNodePtr; // Alias for pointer to struct listNode
+} *ListNodePtr;
 
-// Definition of a singly linked list struct with a pointer to the head node.
 typedef struct list {
 	ListNodePtr head;
 } List;
 
-// Function to create and return a new empty list.
-List new_list();
+/*
+Create a new instance of the list type
+*/
+List create_list();
 
-// Function to insert a new node with given data in the list in ascending order.
+/*
+Insert a new element in an ordered list
+*/
 void insert_in_order(List* self, String data);
 
-// Function to print the contents of a list.
-void print_list(List* self);
+/**
+*Traverse the link-list to find the 'target' course.
+*/
+ListNodePtr search_list(List* self, String data);
 
-// Function to insert a new node with given data at the front of the list.
-void insert_at_front(List* self, String data);
+/*
+Delete an item from a list
+*/
+void delete_list(List* self, String data);
 
 
-// Function to delete the first occurrence of a node with given data from the list.
-void delete_from_list(List* self, String data);
-
-// Function to free the memory allocated to a list and all its nodes.
+/*
+ Delete all items in a list
+ */
 void destroy_list(List* self);
+
