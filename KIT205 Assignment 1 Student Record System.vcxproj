@@ -136,6 +136,8 @@
     <ClInclude Include="linkedlist.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="input.txt" />
+    <Text Include="input2.txt" />
     <Text Include="input_text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
