@@ -25,13 +25,13 @@ List create_list() {
 void destroy_list(List* self) {
 	ListNodePtr clist = self->head;
 	while (clist != NULL) {
-		ListNodePtr to_free = clist;
+		ListNodePtr a = clist;
 
 		clist = clist->next; //continue to tranverse
 
-		destroy_bst(&to_free->student_list);
-		free(to_free->unit_name);
-		free(to_free);
+		destroy_bst(&a->student_list);
+		free(a->unit_name);
+		free(a);
 	}
 	self->head = NULL;
 }
