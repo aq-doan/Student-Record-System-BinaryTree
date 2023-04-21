@@ -7,81 +7,34 @@
 * This version is modified by Anh Quan Doan for the first Assignment of KIT205
 */
 
-/**
- * @struct bstNode
- * @brief Represents a single node in a binary search tree
- *
- * Contains an integer data item and pointers to its left and right children.
- */
+
 typedef struct bstNode {
 	int id_number;
 	struct bstNode* left;
 	struct bstNode* right;
 } *BSTNodePtr;
 
-/**
- * @struct bst
- * @brief Represents a binary search tree
- *
- * Contains a pointer to the root node of the BST.
- */
 typedef struct bst {
 	BSTNodePtr root;
 } BST;
 
-/**
- * @brief Creates a new, empty binary search tree
- *
- * @return The new binary search tree
- */
+//function to create a new tree
 BST new_bst();
 
-/**
- * @brief Finds a node with a given data item in a binary search tree
- *
- * @param self Pointer to the binary search tree to search
- * @param n The data item to search for
- *
- * @return Pointer to the node with the given data item, or NULL if it is not found
- */
+//function to code the node in the tree
+int count_node(BST* self);
+
+//function to find node
 BSTNodePtr find_bst_node(BST* self, int n);
 
-/**
- * @brief Inserts a node with a given data item into a binary search tree
- *
- * @param self Pointer to the binary search tree to insert into
- * @param n The data item to insert
- */
+//function to insert in order
 void insert_bst(BST* self, int n);
 
-
-/**
- * @brief Deletes a node with a given data item from a binary search tree
- *
- * @param self Pointer to the binary search tree to delete from
- * @param n The data item to delete
- */
+//function to delete a node through traversal
 void delete_bst(BST* self, int n);
 
-/**
- * @brief Frees all memory allocated for a binary search tree
- *
- * @param self Pointer to the binary search tree to destroy
- */
+//function to free memory
 void destroy_bst(BST* self);
 
-/**
- * @brief Prints the data items of a binary search tree in ascending order
- *
- * @param self Pointer to the binary search tree to print
- */
+//function to print in order
 void print_in_order_bst(BST* self);
-
-
-/**
-* Count the number of nodes inside the binary search tree
-* this is useful for summerizing how many students are enrolled in a course.
-* @param: self
-* @return: count
-*/
-int count_node(BST* self);

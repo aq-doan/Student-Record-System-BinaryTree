@@ -32,7 +32,6 @@ void insert_in_order(List* self, String data);
 //function to delete an item 
 void delete_list(List* self, String data);
 
-
 //function to free memory when not used
 void destroy_list(List* self);
 

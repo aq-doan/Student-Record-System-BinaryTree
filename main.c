@@ -134,3 +134,82 @@ void main() {
 	}
 
 }
+void test_list() {
+	List list = create_list();
+
+	// insert some nodes into the list
+	insert_in_order(&list, "KIT111");
+	insert_in_order(&list, "KIT205");
+	insert_in_order(&list, "KIT222");
+
+	// print the list
+	printf("List contents: ");
+
+
+
+	ListNodePtr node = search_list(&list, "KIT205");
+	if (node != NULL) {
+		printf("search list success");
+	}
+	else {
+		printf("search list failed\n");
+	}
+
+	// delete a node from the list
+	delete_list(&list, "KIT205");
+	ListNodePtr current = (&list)->head;
+
+	while (current != NULL)
+	{
+		int count_student = count_node(&current->student_list);
+		printf("%s %d\n", current->unit_name, count_student);
+		current = current->next;
+	}
+	//test destroy
+	destroy_list(&list);
+}
+void test_bst() {
+	
+	BST bst = new_bst();
+
+	//insert directly into the bst
+	insert_bst(&bst, 5);
+	insert_bst(&bst, 3);
+	insert_bst(&bst, 7);
+	insert_bst(&bst, 1);
+	insert_bst(&bst, 4);
+	insert_bst(&bst, 6);
+	insert_bst(&bst, 8);
+	printf("Test count node in BST: %d\n", count_node(&bst));
+	printf("test print in order:\n");
+	print_in_order_bst(&bst);
+
+	BSTNodePtr node1 = find_bst_node(&bst, 5);
+	if (node1 != NULL) {
+		printf("find node success.\n");
+	}
+	else {
+		printf("find node fail\n");
+	}
+	BSTNodePtr node2 = find_bst_node(&bst, 2);
+	if (node2 != NULL) {
+		printf("find node success.\n");
+	}
+	else {
+		printf("find node fail\n");
+	}
+
+	delete_bst(&bst, 4);
+	printf("Expect no 4 in the bst.\n");
+	delete_bst(&bst, 7);
+	printf("Expect no 7 in the bst.\n");
+	print_in_order_bst(&bst); //pass if no 4 and 7 in the bst
+
+	destroy_bst(&bst);
+	if (&bst == NULL) { //if the list is empty
+		printf("destroy_bst sucess.\n");
+	}
+	else {
+		printf("destroy_bst failed.\n");
+	}
+}
