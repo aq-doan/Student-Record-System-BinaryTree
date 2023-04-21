@@ -5,6 +5,7 @@
 * https://mylo.utas.edu.au/d2l/le/content/566489/viewContent/4972074/View
 * This version is modified by Anh Quan Doan for the first Assignment of KIT205
 */
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +13,8 @@
 #include<string.h>
 #include "linkedlist.h"
 #include"binary_search_tree.h"
+#include <time.h>
+#include <math.h>
 
 #define MIN 0
 #define MAX 7
@@ -132,8 +135,23 @@ void main() {
 
 		destroy_list(&list_of_unit);
 	}
+	/*
+	BST tree = new_bst();
+	clock_t start = clock();
+	for (int i = 0; i < 20000000; i++)
+	{
+		int a = rand();
+		insert_bst(&tree, i);
+	}
 
+	clock_t diff = clock() - start;
+	long msec = diff * 1000 / CLOCKS_PER_SEC;
+	
+	printf("Operation took %d milliseconds\n\n", msec);
+	*/
 }
+
+
 void test_list() {
 	List list = create_list();
 
